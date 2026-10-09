@@ -8,7 +8,7 @@ const motionButton = document.getElementById('motionButton');
 const musicButton = document.getElementById('musicButton');
 const backgroundMusic = document.getElementById('backgroundMusic');
 const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
-const weddingDate = new Date('2026-11-26T20:32:00+05:30');
+const weddingDate = new Date('2026-11-25T21:33:00+05:30');
 let opened = false;
 let paused = motionQuery.matches;
 let toastTimer;
@@ -43,7 +43,8 @@ document.addEventListener('visibilitychange', updateMotion);
 updateMotion();
 
 // The supplied song starts inside the opening tap to satisfy mobile autoplay rules.
-const musicStartAt = 6;
+// The file is already trimmed to begin at 0:19 of the original track.
+const musicStartAt = 0;
 let musicPlaying = false;
 let resumeMusicWhenVisible = false;
 let musicHasStarted = false;
@@ -178,7 +179,7 @@ function updateCountdown() {
   const remaining = weddingDate.getTime() - Date.now();
   const countdown = document.getElementById('countdown');
   if (remaining <= 0) {
-    const sameDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()) === '2026-11-26';
+    const sameDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()) === '2026-11-25';
     countdown.innerHTML = '<div style="grid-column:1/-1"><strong>' + (sameDay ? 'Our day is here' : 'Forever has begun') + '</strong><span>Thank you for your love & blessings</span></div>';
     return;
   }
@@ -200,17 +201,17 @@ function notifyGuest(message) {
 const calendarText = text => text.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
 function downloadCalendar(event) {
   event.preventDefault();
-  const location = 'T.T.D. Kalyanamandapam, M.V.P. Double Road, near M.V.P. Rythu Bazar, Visakhapatnam 530017';
+  const location = 'Vedika, Daspalla Hotel, Suryabagh, Jagadamba Junction, Visakhapatnam 530020';
   const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
   // Separate start times preserve both confirmed timings without inventing an end time.
-  const lines = ['BEGIN:VCALENDAR','VERSION:2.0','CALSCALE:GREGORIAN','PRODID:-//Tarun and Madhurya//Wedding//EN'];
+  const lines = ['BEGIN:VCALENDAR','VERSION:2.0','CALSCALE:GREGORIAN','PRODID:-//Supraja and Shashank//Wedding//EN'];
   [
-    ['dinner', '20261126T140000Z', 'Wedding dinner — Sai Tarun & Madhurya'],
-    ['ceremony', '20261126T150200Z', 'Sumuhurtham — Sai Tarun & Sai Durga Madhurya']
+    ['dinner', '20261125T140000Z', 'Wedding dinner — Supraja & Shashank'],
+    ['ceremony', '20261125T160300Z', 'Sumuhurtham — Supraja & Shashank']
   ].forEach(([id, start, title]) => {
-    lines.push('BEGIN:VEVENT','UID:tarun-madhurya-20261126-' + id, 'DTSTAMP:' + stamp,
+    lines.push('BEGIN:VEVENT','UID:supraja-shashank-20261125-' + id, 'DTSTAMP:' + stamp,
       'DTSTART:' + start, 'SUMMARY:' + calendarText(title), 'LOCATION:' + calendarText(location),
-      'DESCRIPTION:' + calendarText('Thursday, 26 November 2026. Dinner: 7:30 p.m. IST. Sumuhurtham: 8:32 p.m. IST.'),
+      'DESCRIPTION:' + calendarText('Wednesday, 25 November 2026. Dinner: 7:30 p.m. IST onwards. Sumuhurtham: 9:33 p.m. IST.'),
       'END:VEVENT');
   });
   lines.push('END:VCALENDAR');
@@ -228,7 +229,7 @@ function downloadCalendar(event) {
   const url = URL.createObjectURL(new Blob([folded], { type: 'text/calendar;charset=utf-8' }));
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'Tarun-Madhurya-Wedding.ics';
+  link.download = 'Supraja-Shashank-Wedding.ics';
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -237,8 +238,8 @@ function downloadCalendar(event) {
 }
 document.querySelectorAll('[data-calendar]').forEach(button => button.addEventListener('click', downloadCalendar));
 document.getElementById('shareButton').addEventListener('click', async () => {
-  const title = 'Sai Tarun & Sai Durga Madhurya — Wedding Invitation';
-  const text = 'You’re invited! 26 November 2026, T.T.D. Kalyanamandapam, MVP Colony, Visakhapatnam. Dinner 7:30 p.m. · Sumuhurtham 8:32 p.m. IST.';
+  const title = 'Supraja & Shashank — Wedding Invitation';
+  const text = 'You’re invited! Wednesday, 25 November 2026, Vedika, Daspalla Hotel, Visakhapatnam. Dinner 7:30 p.m. onwards · Sumuhurtham 9:33 p.m. IST.';
   const shareable = /^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1'].includes(location.hostname);
   const data = shareable ? { title, text, url: location.href } : { title, text };
   try {

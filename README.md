@@ -1,6 +1,6 @@
-# Tarun × Madhurya — Forever Begins
+# Supraja × Shashank — Forever Begins
 
-A mobile-first, single-page wedding invitation for Tarun and Madhurya. It includes an animated temple opening, drifting leaves, background music, a countdown, event details, calendar download, directions, and sharing.
+A mobile-first, single-page wedding invitation for Supraja and Shashank. It includes an animated temple opening, drifting leaves, background music, a countdown, event details, calendar download, directions, and sharing.
 
 ## Preview locally
 
